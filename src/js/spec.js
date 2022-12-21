@@ -1,6 +1,6 @@
 // <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-//
-let base = []; //
+
+import { base } from './database';
 
 var ExcelToJSON = function () {
   this.parseExcel = function (file) {
@@ -9,7 +9,7 @@ var ExcelToJSON = function () {
     reader.onload = function (e) {
       var data = e.target.result;
       var workbook = XLSX.read(data, {
-        type: "binary",
+        type: 'binary',
       });
 
       exelToObj(workbook);
@@ -37,48 +37,48 @@ function exelToObj(exselObj) {
   let contentMap = new Map();
   let activeSheet = [0];
   let stopParseSpec = false;
-  if (Object.values(exselObj)[5]["Для цеху"]) {
-    activeSheet = "Для цеху";
+  if (Object.values(exselObj)[5]['Для цеху']) {
+    activeSheet = 'Для цеху';
   }
   //Нoмер специфікації та замовник
   let specification = new Specification();
-  specification.Num = specification.Num(exselObj, activeSheet) || "БЕЗ НОМЕРУ";
-  if (specification.Num == "БЕЗ НОМЕРУ") {
+  specification.Num = specification.Num(exselObj, activeSheet) || 'БЕЗ НОМЕРУ';
+  if (specification.Num == 'БЕЗ НОМЕРУ') {
     stopParseSpec = true;
-    alert("УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Номер Специфікації.");
+    alert('УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Номер Специфікації.');
     return;
   }
   specification.Client =
-    specification.Client(exselObj, activeSheet) || "Відсутній клієнт";
-  if (specification.Client == "Відсутній клієнт") {
+    specification.Client(exselObj, activeSheet) || 'Відсутній клієнт';
+  if (specification.Client == 'Відсутній клієнт') {
     stopParseSpec = true;
-    alert("УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Замовник.");
+    alert('УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Замовник.');
     return;
   }
   //Адреси заголовків
   specification.titlesAdr.Marking =
-    specification.titlesAdr(exselObj, activeSheet, /Маркування/i) || "-";
+    specification.titlesAdr(exselObj, activeSheet, /Маркування/i) || '-';
   specification.titlesAdr.Metall =
-    specification.titlesAdr(exselObj, activeSheet, /Вибір металу:/i) || "-";
+    specification.titlesAdr(exselObj, activeSheet, /Вибір металу:/i) || '-';
   specification.titlesAdr.Material =
-    specification.titlesAdr(exselObj, activeSheet, /Матеріали/i) || "-";
+    specification.titlesAdr(exselObj, activeSheet, /Матеріали/i) || '-';
   specification.titlesAdr.Mat =
-    specification.titlesAdr(exselObj, activeSheet, /Використати мат:/i) || "-";
+    specification.titlesAdr(exselObj, activeSheet, /Використати мат:/i) || '-';
 
   specification.titlesAdr.MarkingSTOP = () => {
-    if (specification.titlesAdr.Marking == "-") {
-      alert("УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Маркування.");
+    if (specification.titlesAdr.Marking == '-') {
+      alert('УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Маркування.');
     }
-    if (specification.titlesAdr.Metall != "-") {
+    if (specification.titlesAdr.Metall != '-') {
       return specification.titlesAdr.Metall[1].valueOf();
-    } else if (specification.titlesAdr.Material != "-") {
+    } else if (specification.titlesAdr.Material != '-') {
       return specification.titlesAdr.Material[1].valueOf();
-    } else if (specification.titlesAdr.Mat != "-") {
+    } else if (specification.titlesAdr.Mat != '-') {
       return specification.titlesAdr.Mat[1].valueOf();
     } else {
       stopParseSpec = true;
       alert(
-        "УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Вибір металу, Матеріали, Використати мат."
+        'УВАГА!\n ВІДСУТНІ ЗАГОЛОВКИ: \n Вибір металу, Матеріали, Використати мат.'
       );
       return 0;
     }
@@ -88,41 +88,41 @@ function exelToObj(exselObj) {
     exselObj,
     activeSheet,
     /Назва/i
-  ) || ["z", "1"];
+  ) || ['z', '1'];
   specification.titlesAdr.Length = specification.titlesAdr(
     exselObj,
     activeSheet,
     /Довжина/i
-  ) || ["z", "1"];
+  ) || ['z', '1'];
   specification.titlesAdr.Width = specification.titlesAdr(
     exselObj,
     activeSheet,
     /Ширина/i
-  ) || ["z", "1"];
+  ) || ['z', '1'];
   specification.titlesAdr.Quantity = specification.titlesAdr(
     exselObj,
     activeSheet,
     /Кількість/i
-  ) || ["z", "1"];
+  ) || ['z', '1'];
   specification.titlesAdr.Notes = specification.titlesAdr(
     exselObj,
     activeSheet,
     /Примітки/i
-  ) || ["z", "1"];
+  ) || ['z', '1'];
   specification.titlesAdr.Notch = specification.titlesAdr(
     exselObj,
     activeSheet,
     /Вирізи/i
-  ) || ["z", "1"];
+  ) || ['z', '1'];
   //["z","1"] -у випадку, якщо не знайдено заголовок
 
   let nameCell =
-    "S" +
-    specification.Num.replace(/([ЗМІНА]{5}\d*)/g, "_$1_") +
-    "___" +
+    'S' +
+    specification.Num.replace(/([ЗМІНА]{5}\d*)/g, '_$1_') +
+    '___' +
     specification.Client;
   nameCell =
-    nameCell.replace(/[\s]/g, "").replace(/[/]/g, "_").replace(/["]/g, "__") +
+    nameCell.replace(/[\s]/g, '').replace(/[/]/g, '_').replace(/["]/g, '__') +
     [];
   console.log(nameCell, base);
 
@@ -136,19 +136,17 @@ function exelToObj(exselObj) {
   function onSuccess(baseReturn) {
     baseReturn = JSON.parse(baseReturn);
     console.log(baseReturn);
-    var div = document.getElementById("output");
+    var div = document.getElementById('output');
     div.innerHTML = baseReturn;
   }
 
-  ///////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////
 
   postServer();
 
-  console.log(base);
-
   // google.script.run.withSuccessHandler(onSuccess).getBase(base);
-  base = [];
-  //////////////////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   function detailsMarking() {
     if (!stopParseSpec) {
@@ -197,13 +195,13 @@ function exelToObj(exselObj) {
               quantityAdr,
               notesAdr,
               notchAdr,
-            ].forEach((item) => {
+            ].forEach(item => {
               tempBuffer = specification.tableContent(
                 exselObj,
                 activeSheet,
                 item
               );
-              tempBuffer ? detail.push(tempBuffer) : detail.push("");
+              tempBuffer ? detail.push(tempBuffer) : detail.push('');
             });
             details.push(detail);
           }
@@ -212,6 +210,8 @@ function exelToObj(exselObj) {
       return details;
     }
   }
+  console.log(base);
+  return base;
 }
 
 let Specification = function () {
@@ -222,19 +222,19 @@ let Specification = function () {
     let Spec =
       /([\u0410-\u042F\u0456i]{12}\s*[\u2116]\s*)(\d{1,})(\s*-?\d*)\s*(\u002F\s*\u0447?[\u043e\u0426]{0,2}\s*\u002F\u0423?[\u0415|e]?)/i;
     let SpecTest = /[СПЕЦИФІКАЦІЯi]{12}\s/i;
-    let SpecAnswer = "$2$4"; //«АФЕТ-БУД»
+    let SpecAnswer = '$2$4'; //«АФЕТ-БУД»
 
     for (let row = 1; row < maxRow; row++) {
       for (let column = 65; column < 90; column++) {
-        let cell = String.fromCharCode(column) + (row + "");
+        let cell = String.fromCharCode(column) + (row + '');
         try {
           if (
-            SpecTest.test(Object.values(exselObj)[5][activeSheet][cell]["w"])
+            SpecTest.test(Object.values(exselObj)[5][activeSheet][cell]['w'])
           ) {
-            let val = Object.values(exselObj)[5][activeSheet][cell]["w"];
+            let val = Object.values(exselObj)[5][activeSheet][cell]['w'];
             val = val
               .replace(Spec, SpecAnswer)
-              .replace(/\s{2,}/, "s")
+              .replace(/\s{2,}/, 's')
               .replace(/[«||»]/g, '"')
               .toUpperCase();
             return val;
@@ -248,21 +248,21 @@ let Specification = function () {
 
     let zamovnyk = /\s*([Замовник]{8}\s*:*\s*)([\s\u0410-\u042F\u0456A-Z]*)/i;
     let zamovnykTest = /[Замовник]{8}\s*:*\s*/i;
-    let zamovnykAnswer = "$2";
+    let zamovnykAnswer = '$2';
 
     for (let row = 1; row < maxRow; row++) {
       for (let column = 65; column < 90; column++) {
-        let cell = String.fromCharCode(column) + (row + "");
+        let cell = String.fromCharCode(column) + (row + '');
         try {
           if (
             zamovnykTest.test(
-              Object.values(exselObj)[5][activeSheet][cell]["w"]
+              Object.values(exselObj)[5][activeSheet][cell]['w']
             )
           ) {
-            let val = Object.values(exselObj)[5][activeSheet][cell]["w"];
+            let val = Object.values(exselObj)[5][activeSheet][cell]['w'];
             val = val
               .replace(zamovnyk, zamovnykAnswer)
-              .replace(/\s{2,}/, "s")
+              .replace(/\s{2,}/, 's')
               .replace(/[«||»]/g, '"')
               .toUpperCase();
             return val;
@@ -275,16 +275,16 @@ let Specification = function () {
   this.titlesAdr = function (exselObj, activeSheet, titleRegEx) {
     //отримання адреси ячейки заголовку
     let maxRow = 10;
-    if (titleRegEx.test("/Вибір металу:/gi/Матеріали/ig/Використати мат:/gi")) {
+    if (titleRegEx.test('/Вибір металу:/gi/Матеріали/ig/Використати мат:/gi')) {
       maxRow = 1024;
     }
 
     for (let row = 1; row < maxRow; row++) {
       for (let column = 65; column < 90; column++) {
-        let cell = String.fromCharCode(column) + (row + "");
+        let cell = String.fromCharCode(column) + (row + '');
         try {
           if (
-            titleRegEx.test(Object.values(exselObj)[5][activeSheet][cell]["w"])
+            titleRegEx.test(Object.values(exselObj)[5][activeSheet][cell]['w'])
           ) {
             return [String.fromCharCode(column), row];
           }
@@ -292,10 +292,10 @@ let Specification = function () {
       }
     }
   };
-  this.tableContent = function (exselObj, activeSheet, adressCell = "G1") {
+  this.tableContent = function (exselObj, activeSheet, adressCell = 'G1') {
     //отримання контенту з ячейки
     try {
-      return Object.values(exselObj)[5][activeSheet][adressCell]["w"];
+      return Object.values(exselObj)[5][activeSheet][adressCell]['w'];
     } catch (error) {
       //console.error(adressCell, ": error")
       return false;
@@ -307,38 +307,38 @@ let Specification = function () {
 
 function getServer() {
   const url =
-    "https://script.google.com/macros/s/AKfycbx9eFKQXavMnMh-p-ohpSV2vd3v5qL0o2TqCr9VfxvLuPFJyO8AUJtE7awTBy-M-eNv/exec";
+    'https://script.google.com/macros/s/AKfycbx9eFKQXavMnMh-p-ohpSV2vd3v5qL0o2TqCr9VfxvLuPFJyO8AUJtE7awTBy-M-eNv/exec';
 
   fetch(url)
-    .then((d) => d.json())
-    .then((d) => {
-      document.getElementById("app").textContent = d[0].name;
+    .then(d => d.json())
+    .then(d => {
+      document.getElementById('app').textContent = d[0].name;
       console.log(d);
     });
 }
 
-document.getElementById("btn").addEventListener("click", getServer);
+document.getElementById('btn').addEventListener('click', getServer);
 
 function postServer() {
   const url =
-    "https://script.google.com/macros/s/AKfycbx9eFKQXavMnMh-p-ohpSV2vd3v5qL0o2TqCr9VfxvLuPFJyO8AUJtE7awTBy-M-eNv/exec";
+    'https://script.google.com/macros/s/AKfycbx9eFKQXavMnMh-p-ohpSV2vd3v5qL0o2TqCr9VfxvLuPFJyO8AUJtE7awTBy-M-eNv/exec';
   // let res = [{ status: "cool!", work: "Батя, я стараюсь!" }];
-  let res = [{ name: "Gogi", work: "Батя, я стараюсь!" }];
+  let res = [{ name: 'Gogi', work: 'Батя, я стараюсь!' }];
 
   console.info(base);
 
   fetch(url, {
-    method: "POST",
-    mode: "no-cors",
-    cache: "no-cache",
+    method: 'POST',
+    mode: 'no-cors',
+    cache: 'no-cache',
     // credential: "same-origin",
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    direct: "fillow",
-    reffererPolicy: "no-refferer",
+    direct: 'fillow',
+    reffererPolicy: 'no-refferer',
     body: JSON.stringify({ spec: base }),
   });
 }
 
-document.getElementById("btn1").addEventListener("click", postServer);
+document.getElementById('btn1').addEventListener('click', postServer);

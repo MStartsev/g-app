@@ -1,6 +1,7 @@
 // <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 import { base } from './database';
+import postServer from './toserver.js';
 
 var ExcelToJSON = function () {
   this.parseExcel = function (file) {
@@ -132,15 +133,15 @@ function exelToObj(exselObj) {
   base.push(detailsMarking()); //запис Маркування + характеристики деталей
   base.push([]); // для подальших записів ВТК
 
-  // відправка на сервер
+  // відповідь сервера
   function onSuccess(baseReturn) {
     baseReturn = JSON.parse(baseReturn);
     console.log(baseReturn);
     var div = document.getElementById('output');
     div.innerHTML = baseReturn;
   }
-
-  /////////////////////////////////////////////////////////////////////////////////
+  // відправка на сервер
+  ///////////////////////////////////////////////////////////////////////////////
 
   postServer();
 
@@ -211,7 +212,6 @@ function exelToObj(exselObj) {
     }
   }
   console.log(base);
-  return base;
 }
 
 let Specification = function () {
@@ -304,41 +304,3 @@ let Specification = function () {
 };
 
 //------------------------------------------------------------------------------------------------------------------------------//
-
-function getServer() {
-  const url =
-    'https://script.google.com/macros/s/AKfycbx9eFKQXavMnMh-p-ohpSV2vd3v5qL0o2TqCr9VfxvLuPFJyO8AUJtE7awTBy-M-eNv/exec';
-
-  fetch(url)
-    .then(d => d.json())
-    .then(d => {
-      document.getElementById('app').textContent = d[0].name;
-      console.log(d);
-    });
-}
-
-document.getElementById('btn').addEventListener('click', getServer);
-
-function postServer() {
-  const url =
-    'https://script.google.com/macros/s/AKfycbx9eFKQXavMnMh-p-ohpSV2vd3v5qL0o2TqCr9VfxvLuPFJyO8AUJtE7awTBy-M-eNv/exec';
-  // let res = [{ status: "cool!", work: "Батя, я стараюсь!" }];
-  let res = [{ name: 'Gogi', work: 'Батя, я стараюсь!' }];
-
-  console.info(base);
-
-  fetch(url, {
-    method: 'POST',
-    mode: 'no-cors',
-    cache: 'no-cache',
-    // credential: "same-origin",
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    direct: 'fillow',
-    reffererPolicy: 'no-refferer',
-    body: JSON.stringify({ spec: base }),
-  });
-}
-
-document.getElementById('btn1').addEventListener('click', postServer);

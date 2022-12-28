@@ -1,0 +1,71 @@
+@mixin font-fw-fs-lh-ls($font-weight, $font-size, $line-height, $letter-spacing) {
+  font: {
+    weight: $font-weight;
+    size: calc($font-size * var(--coef));
+  }
+  line-height: calc($line-height * var(--coef));
+  letter-spacing: $letter-spacing;
+}
+
+@mixin transition($prop, $time, $easing: $ease1, $delay: 0ms) {
+  $transition: ();
+  @for $i from 1 through length($prop) {
+    @for $j from 0 to (length($prop)) - (length($time)) {
+      $time: join($time, nth($time, -1));
+    }
+    @for $j from 0 to (length($prop)) - (length($easing)) {
+      $easing: join($easing, nth($easing, -1));
+    }
+    @for $j from 0 to (length($prop)) - (length($delay)) {
+      $delay: join($delay, nth($delay, -1));
+    }
+
+    $transition: append(
+      $transition,
+      (nth($prop, $i) nth($time, $i) nth($easing, $i) nth($delay, $i)),
+      $separator: comma
+    );
+  }
+  transition: $transition;
+}
+
+/* for @mixin transition
+scss input:
+@include transition(height width transform, 0.2s 0.3s, linear, 0s);
+
+css output:
+transition: height 0.2s linear 0s, width 0.3s linear 0s, transform 0.3s linear 0s;
+*/
+
+@mixin border-radius($n) {
+  border-radius: $n;
+  -webkit-border-radius: $n;
+  -moz-border-radius: $n;
+  -ms-border-radius: $n;
+  -o-border-radius: $n;
+}
+
+// url(../images/main/bghero.jpg)
+
+@mixin bg-image-assembly($image, $media-x, $path, $gradient) {
+  background-image: $gradient, url($path + $image + $media-x + '.jpg');
+}
+
+@mixin bg-image(
+  $image,
+  $path: '../images/main/',
+  $gradient: (linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4)))
+) {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @include bg-image-assembly($image, '@1x', $path, $gradient);
+
+  @for $i from 2 to 3 {
+    @media (-webkit-min-device-pixel-ratio: $i),
+      (min-resolution: ((96*$i)  + dpi)),
+      (min-resolution: (($i) + dppx)) {
+      @include bg-image-assembly($image, '@' + $i + 'x', $path, $gradient);
+    }
+  }
+}

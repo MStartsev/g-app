@@ -1,6 +1,64 @@
 <header class="header">
-    <div class="container"><img src="./images/zrn.svg" alt="Логотип Заводу Решіткового Настилу" width="180" height="59">
-        <a href="./"></a>
-    </div>
+    <div class="container">
+        <div class="header__flex">
+            <a href="./" class="link logo header__logo" lang="en">
+                <img src="./images/zrn.svg" width="180" height="59">
+            </a>
 
+            <button class="btn__menu-open pointer" type="button" data-menu-open>
+                <svg width="40" height="40">
+                    <use href="./images/sprite.svg#i-menu"></use>
+                </svg>
+            </button>
+
+            <div class="menu menu__visually-hidden" data-menu>
+
+                <button class="btn__menu-close pointer" type="button" data-menu-close>
+                    <svg width="20" height="20">
+                        <use href="./images/sprite.svg#i-x"></use>
+                    </svg>
+                </button>
+
+                <nav class="nav container-flex">
+
+                    <ul class="list nav__list container-flex">
+                        <li class="item container-flex">
+                            <a class="link nav__link nav__link--current" href="./">Решітковий настил</a>
+                        </li>
+                        <li class="item container-flex">
+                            <a class="link nav__link" href="#">Арматурні сітки</a>
+                        </li>
+                        <li class="item container-flex">
+                            <a class="link nav__link" href="#" data-menu-contacts>Просторові каркаси</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="menu__wrap container-flex">
+
+                    <ul class="list address address__menu container-flex">
+                        <li class="item container-flex">
+                            <a class="link address__link menu__email header__link" href="#">
+                                <svg class="icon__mailto" width="16" height="12">
+                                    <use href="./images/sprite.svg#i-envelope"></use>
+                                </svg>
+                                Додати специфікацію
+                            </a>
+                        </li>
+                        <li class="item container-flex">
+                            <a class="link address__link menu__tel header__link" href="#">
+                                <svg class="icon__tel" width="10" height="16">
+                                    <use href="./images/sprite.svg#i-vector"></use>
+                                </svg>
+                                Вихід
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 </header>

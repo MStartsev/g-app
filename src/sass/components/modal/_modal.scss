@@ -1,0 +1,57 @@
+.modal {
+  position: absolute;
+  padding: res(40px);
+  margin-bottom: -15vh;
+  overflow: auto;
+  top: 15vh;
+  left: 50%;
+  transform: translate(-50%, 0) scale(1);
+  background-color: color(_white);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  @media screen and(min-width: 480px) {
+    width: res(450px);
+  }
+
+  @media screen and(min-width: 1200px) {
+    width: res(528px);
+    top: 15vh;
+  }
+
+  &__wrap {
+    position: relative;
+  }
+
+  &__close {
+    width: res(30px);
+    height: res(30px);
+    padding: 0;
+    position: absolute;
+    top: res(6px);
+    right: res(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: color(_black);
+    border: none;
+    box-shadow: 0px 0px 0px 1px #e5e5e5;
+    background: color(_white);
+    @include border-radius(50%);
+
+    &:hover,
+    &:focus {
+      fill: color(_blue);
+      @include transition(fill, 250ms, $cubic);
+    }
+  }
+
+  &__icon {
+    width: res(11px);
+    height: res(11px);
+  }
+}

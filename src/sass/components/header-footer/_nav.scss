@@ -1,0 +1,54 @@
+.nav {
+  &__list {
+    gap: 50px;
+    @media screen and (max-width: 767px) {
+      gap: res(32px);
+    }
+  }
+
+  &__link {
+    display: inherit;
+    align-items: center;
+    @include font-fw-fs-lh-ls(500, 40px, 1.175, 0.02em);
+
+    @media screen and (min-width: 768px) {
+      font-size: res(14px);
+      line-height: res(1.14);
+    }
+
+    transition: color 250ms $cubic, fill 250ms $cubic;
+    -webkit-transition: color 250ms $cubic, fill 250ms $cubic;
+    -moz-transition: color 250ms $cubic, fill 250ms $cubic;
+    -ms-transition: color 250ms $cubic, fill 250ms $cubic;
+    -o-transition: color 250ms $cubic, fill 250ms $cubic;
+
+    &:hover,
+    &:focus {
+      color: color(_blue);
+      fill: color(_blue);
+    }
+
+    &--current {
+      position: relative;
+      color: color(_blue);
+
+      &::before {
+        @media screen and (min-width: 768px) {
+          display: block;
+          content: '';
+          position: absolute;
+          z-index: 1;
+          width: 100%;
+          height: 4px;
+          bottom: -1px;
+          background-color: color(_blue);
+          border-radius: 2px;
+          -webkit-border-radius: 2px;
+          -moz-border-radius: 2px;
+          -ms-border-radius: 2px;
+          -o-border-radius: 2px;
+        }
+      }
+    }
+  }
+}

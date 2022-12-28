@@ -1,0 +1,30 @@
+body,
+.link,
+.pointer {
+  font-family: font(_roboto);
+  font-size: 100%;
+  color: color(_dark);
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  list-style: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

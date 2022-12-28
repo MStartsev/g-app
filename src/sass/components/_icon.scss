@@ -1,0 +1,15 @@
+.icon {
+  display: block;
+  width: res(20px);
+  height: res(20px);
+
+  &__mailto,
+  &__tel {
+    display: none;
+    margin-right: 10px;
+
+    @media screen and (min-width: 768px) {
+      display: block;
+    }
+  }
+}

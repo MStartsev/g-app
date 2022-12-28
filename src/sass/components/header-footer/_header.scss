@@ -1,0 +1,49 @@
+.header {
+  margin-inline: auto;
+  border-bottom: border(_grey-line);
+
+  &__flex {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    margin-inline: auto;
+
+    @media screen and (max-width: 767px) {
+      align-items: center;
+    }
+
+    @media screen and (min-width: 768px) {
+      max-width: 738px;
+      gap: 87px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      gap: res(93px);
+    }
+  }
+
+  &__logo {
+    padding-top: res(16px);
+    padding-bottom: res(15px);
+
+    @media screen and (min-width: 768px) {
+      padding-top: res(25px);
+      padding-bottom: res(24px);
+    }
+
+    &--contrast {
+      color: color(_black);
+    }
+  }
+
+  &__link {
+    display: inherit;
+    align-items: center;
+    @include font-fw-fs-lh-ls(500, 14px, 1.14, 0.02em);
+    transition: color 250ms $cubic, fill 250ms $cubic;
+    -webkit-transition: color 250ms $cubic, fill 250ms $cubic;
+    -moz-transition: color 250ms $cubic, fill 250ms $cubic;
+    -ms-transition: color 250ms $cubic, fill 250ms $cubic;
+    -o-transition: color 250ms $cubic, fill 250ms $cubic;
+  }
+}

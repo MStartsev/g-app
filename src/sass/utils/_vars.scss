@@ -1,0 +1,80 @@
+:root {
+  --color-dark: #212121;
+  --color-grey: #757575;
+  --color-c-grey: #afb1b8;
+  --color-blue: #2196f3;
+  --color-black: #000000;
+  --color-c-blue: #188ce8;
+  --color-f-bg: #2f303a;
+  --color-l-grey: #f5f4fa;
+  --color-white: #ffffff;
+  --color-address-g: rgba(255, 255, 255, 0.6);
+  --color-socials-bg: rgba(255, 255, 255, 0.1);
+  --color-backdrop: rgba(0, 0, 0, 0.2);
+  --font-roboto: 'Roboto', sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
+  --border-portfolio: 1px solid #ececec;
+  --border-project: 1px solid #eeeeee;
+  --animation-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+  --mobile: 480px;
+  --tablet: 768px;
+  --desktop: 1200px;
+  --scrollbar-width: 15;
+  --window-client-width: 768;
+  --coef: 1;
+}
+
+//coefficient responsive
+@function res($n) {
+  @return (calc($n * var(--coef)));
+}
+
+@function res437($n) {
+  @return (calc($n * var(--window-client-width) / 437));
+}
+
+$content-width: 1200px;
+$cubic: cubic-bezier(0.4, 0, 0.2, 1);
+
+$color: (
+  _dark: #212121,
+  _grey: #757575,
+  _c-grey: #afb1b8,
+  _blue: #2196f3,
+  _black: #000000,
+  _c-blue: #188ce8,
+  _f-bg: #2f303a,
+  _l-grey: #f5f4fa,
+  _white: #ffffff,
+  _address-g: rgba(255, 255, 255, 0.6),
+  _socials-bg: rgba(255, 255, 255, 0.1),
+  _backdrop: rgba(0, 0, 0, 0.2),
+);
+
+@function color($key) {
+  @return map-get($color, $key);
+}
+
+$font: (
+  _roboto: (
+    'Roboto',
+    sans-serif,
+  ),
+  _raleway: (
+    'Raleway',
+    sans-serif,
+  ),
+);
+
+@function font($key) {
+  @return map-get($font, $key);
+}
+
+$border: (
+  _grey-line: 1px solid #ececec,
+  _project: 1px solid #eeeeee,
+);
+
+@function border($key) {
+  @return map-get($border, $key);
+}
